@@ -7,10 +7,24 @@ from pydantic import BaseModel
 
 
 class Server(BaseModel):
+    name: str
     profile: str
     hostname: str
     port: int
     region: str
+    username: str
+
+    def format(self) -> str:
+        return "\n".join(
+            [
+                click.style(self.name, fg="blue"),
+                f"    {click.style('Profile:', fg='yellow')} {self.profile}",
+                f"    {click.style('Hostname:', fg='yellow')} {self.hostname}",
+                f"    {click.style('Port:', fg='yellow')} {self.port}",
+                f"    {click.style('Region:', fg='yellow')} {self.region}",
+                f"    {click.style('Username:', fg='yellow')} {self.username}",
+            ]
+        )
 
 
 class ServerList(BaseModel):

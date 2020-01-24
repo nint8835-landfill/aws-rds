@@ -13,4 +13,5 @@ def servers():
 def list():
     """List saved servers."""
     server_list = ServerList.load()
-    print(server_list.json())
+    for server in server_list.servers:
+        click.echo(server.format())
