@@ -57,6 +57,24 @@ def add(name, hostname, port, region, username, profile):
 
 
 @servers.command()
+@click.argument("server_name")
+def remove(server_name):
+    """Remove a server from the server list."""
+    server_list = ServerList.load()
+
+    server = next((s for s in server_list.servers if s.name == server_name), None)
+
+    if not server:
+        click.secho(f"No server with the name {server_name} exists.", fg="red")
+        sys.exit(1)
+
+    server_list.servers.remove(server)
+    server_list.save()
+
+    click.secho(f"Server {server_name} removed from server list.", fg="green")
+
+
+@servers.command()
 def list():
     """List saved servers."""
     server_list = ServerList.load()
